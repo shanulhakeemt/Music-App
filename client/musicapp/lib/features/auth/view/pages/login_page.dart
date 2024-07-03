@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fpdart/src/effect.dart';
+import 'package:musicapp/core/failure/failure.dart';
 import 'package:musicapp/core/theme/app_pallete.dart';
+import 'package:musicapp/features/auth/model/user_model.dart';
+import 'package:musicapp/features/auth/repositories/auth_remote_repository.dart';
+import 'package:musicapp/features/auth/view/pages/signup_page.dart';
 import 'package:musicapp/features/auth/view/widgets/auth_gradient_button.dart';
 import 'package:musicapp/features/auth/view/widgets/custom_field.dart';
 
@@ -57,29 +62,43 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 20,
               ),
-               AuthGradientButton(
-                onPressed: () {
-                  
+              AuthGradientButton(
+                onPressed: () async {
+                  final res = await AuthRemoteRepository().login(
+                      email: emailController.text.trim(),
+                      password: passController.text.trim());
+                  final val = switch (res) {
+                    Left(value: final l) => l,
+                    Right(value: final r) => r,
+                  };
+                  print(val);
                 },
                 buttonText: "Sign in",
               ),
               const SizedBox(
                 height: 20,
               ),
-              RichText(
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SignupPage(),
+                      ));
+                },
+                child: RichText(
                   text: TextSpan(
                       text: "Don't have an account? ",
                       style: Theme.of(context).textTheme.titleMedium,
                       children: const [
-                    TextSpan(
-                        text: "Sign Up",
-                        style: TextStyle(
-                            color: Pallete.gradient2,
-                            fontWeight: FontWeight.bold))
-                  ]), 
-                  
-                  
-                  )
+                        TextSpan(
+                            text: "Sign Up",
+                            style: TextStyle(
+                                color: Pallete.gradient2,
+                                fontWeight: FontWeight.bold))
+                      ]),
+                ),
+              )
             ],
           ),
         ),
