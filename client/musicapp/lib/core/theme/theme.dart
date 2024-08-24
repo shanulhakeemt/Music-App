@@ -14,6 +14,4 @@ class AppTheme {
           enabledBorder: _border(Pallete.borderColor)));
 
 
-
-
 }
