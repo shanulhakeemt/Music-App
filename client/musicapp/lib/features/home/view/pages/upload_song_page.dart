@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:musicapp/core/theme/app_pallete.dart';
 import 'package:musicapp/core/ustils.dart';
 import 'package:musicapp/core/widgets/custom_field.dart';
+import 'package:musicapp/features/home/repositories/home_repository.dart';
 import 'package:musicapp/features/home/view/widgets/audio_wave.dart';
 
 class UploadSongPage extends ConsumerStatefulWidget {
@@ -56,7 +57,14 @@ class _UploadSongPageState extends ConsumerState<UploadSongPage> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Upload Song'),
-        actions: const [Icon(Icons.check)],
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await HomeRepository()
+                    .uploadSong(selectedImage!, selectedAudio!);
+              },
+              icon: Icon(Icons.check))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -104,17 +112,16 @@ class _UploadSongPageState extends ConsumerState<UploadSongPage> {
               const SizedBox(
                 height: 40,
               ),
-              selectedAudio!=null?
-              
-              AudioWave(path: selectedAudio!.path,
-              
-              )
-              : CustomField(
-                hintText: 'Select a Song',
-                controller: null,
-                readOnly: true,
-                onTap: selectAudio,
-              ),
+              selectedAudio != null
+                  ? AudioWave(
+                      path: selectedAudio!.path,
+                    )
+                  : CustomField(
+                      hintText: 'Select a Song',
+                      controller: null,
+                      readOnly: true,
+                      onTap: selectAudio,
+                    ),
               const SizedBox(
                 height: 20,
               ),
