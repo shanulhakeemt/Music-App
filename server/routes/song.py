@@ -24,6 +24,9 @@ def upload_song(song:UploadFile=File(...),thumbnail:UploadFile=File(...),
     song_id=str(uuid.uuid4())
     song_res= cloudinary.uploader.upload(song.file,resource_type='auto',folder=f'songs/{song_id}')
     thumbnail_res= cloudinary.uploader.upload(thumbnail.file,resource_type='image',folder=f'songs/{song_id}')
+  
+
+
     new_song=Song(
         id=song_id, song_name=song_name, 
         thumbnail_url=thumbnail_res['url'], 
@@ -41,6 +44,13 @@ def upload_song(song:UploadFile=File(...),thumbnail:UploadFile=File(...),
 
 
 
+@router.get('/list')
+def list_songs(db:Session=Depends(get_db), 
+                auth_dict=Depends(auth_middleware)):
+    
+    songs=db.query(Song).all()
+    return songs
+    
 
 
 

@@ -79,9 +79,11 @@ class AuthViewModel extends _$AuthViewModel {
 
   @override
   AsyncValue<UserModel>? build() {
+    
     _authRemoteRepository = ref.watch(authRemoteRepositoryProvider);
     _authLocalRepository = ref.watch(authLocalRepositoryProvider);
     _currentUserNotifier = ref.watch(currentUserNotifierProvider.notifier);
     return null;
+
   }
 }

@@ -11,7 +11,7 @@ class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
           contentPadding: const EdgeInsets.all(27),
           focusedBorder: _border(Pallete.gradient1),
-          enabledBorder: _border(Pallete.borderColor)));
-
-
+          enabledBorder: _border(Pallete.borderColor)),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Pallete.backgroundColor));
 }

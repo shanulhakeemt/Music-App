@@ -10,6 +10,8 @@ app=FastAPI()
 app.include_router(auth.router,prefix='/auth')
 app.include_router(song.router,prefix='/song')
 
+Base.metadata.create_all(engin)
+
+
 uvicorn.run(app, host="192.168.143.62", port=8000)
    
-Base.metadata.create_all(engin)
