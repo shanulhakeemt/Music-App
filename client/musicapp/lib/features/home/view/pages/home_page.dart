@@ -4,6 +4,7 @@ import 'package:musicapp/core/constants/asset_constants.dart';
 import 'package:musicapp/core/theme/app_pallete.dart';
 import 'package:musicapp/features/home/view/pages/library_page.dart';
 import 'package:musicapp/features/home/view/pages/songs_page.dart';
+import 'package:musicapp/features/home/view/widgets/music_slab.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -47,6 +48,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                 label: 'Library'),
           ],
         ),
-        body: pages[selectedIndex]);
+        body: Stack(
+          children: [
+            pages[selectedIndex],
+            const Positioned(bottom: 0, child: MusicSlab())
+          ],
+        ));
   }
 }
