@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:musicapp/core/constants/asset_constants.dart';
 import 'package:musicapp/core/providers/current_song_notifier.dart';
+import 'package:musicapp/core/providers/current_user_notifier.dart';
 import 'package:musicapp/core/theme/app_pallete.dart';
 import 'package:musicapp/core/ustils.dart';
+import 'package:musicapp/features/home/viewmodel/home_viewmodel.dart';
 
 class MusicPlayer extends ConsumerWidget {
   const MusicPlayer({super.key});
@@ -13,6 +15,9 @@ class MusicPlayer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentSong = ref.watch(currentSongNotifierProvider);
     final songNotifier = ref.read(currentSongNotifierProvider.notifier);
+    final userFavorites = ref.watch(currentUserNotifierProvider.select(
+      (value) => value!.favorites,
+    ));
 
     return Container(
       decoration: BoxDecoration(
@@ -59,7 +64,7 @@ class MusicPlayer extends ConsumerWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                            image: NetworkImage(currentSong!.thumbnailUrl),
+                            image: NetworkImage(currentSong.thumbnailUrl),
                             fit: BoxFit.cover)),
                   ),
                 ),
@@ -92,9 +97,20 @@ class MusicPlayer extends ConsumerWidget {
                       ),
                       const Expanded(child: SizedBox()),
                       IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            CupertinoIcons.heart,
+                          onPressed: () async {
+                            await ref
+                                .read(homeViewmodelProvider.notifier)
+                                .favSong(songId: currentSong.id);
+                          },
+                          icon: Icon(
+                            userFavorites
+                                    .where(
+                                      (fav) => fav.songId == currentSong.id,
+                                    )
+                                    .toList()
+                                    .isNotEmpty
+                                ? CupertinoIcons.heart_fill
+                                : CupertinoIcons.heart,
                             color: Pallete.whiteColor,
                           ))
                     ],

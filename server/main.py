@@ -13,5 +13,5 @@ app.include_router(song.router,prefix='/song')
 Base.metadata.create_all(engin)
 
 
-uvicorn.run(app, host="192.168.143.62", port=8000)
+uvicorn.run(app, host="192.168.225.63", port=8000)
    

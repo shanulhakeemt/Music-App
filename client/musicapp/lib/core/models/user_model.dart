@@ -1,16 +1,18 @@
-import 'dart:convert';
+import 'package:musicapp/features/home/model/fav_song_model.dart';
 
 class UserModel {
   final String id;
   final String name;
   final String email;
   final String token;
+  final List<FavSongModel> favorites;
 
   UserModel({
     required this.id,
     required this.name,
     required this.email,
     required this.token,
+    required this.favorites,
   });
 
   UserModel copyWith({
@@ -18,12 +20,14 @@ class UserModel {
     String? name,
     String? email,
     String? token,
+    List<FavSongModel>? favorites,
   }) {
     return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
       token: token ?? this.token,
+      favorites: favorites ?? this.favorites,
     );
   }
 
@@ -33,6 +37,7 @@ class UserModel {
       'name': name,
       'email': email,
       'token': token,
+      'favorites': favorites.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -42,31 +47,11 @@ class UserModel {
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       token: map['token'] ?? '',
+      favorites: List<FavSongModel>.from(
+        (map['favorites'] ?? []).map(
+          (x) => FavSongModel.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
     );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory UserModel.fromJson(String source) =>
-      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, token: $token)';
-  }
-
-  @override
-  bool operator ==(covariant UserModel other) {
-    if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.name == name &&
-        other.email == email &&
-        other.token == token;
-  }
-
-  @override
-  int get hashCode {
-    return id.hashCode ^ name.hashCode ^ email.hashCode ^ token.hashCode;
   }
 }

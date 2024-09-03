@@ -15,6 +15,7 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   int selectedIndex = 0;
+  
   final pages = const [SongsPage(), LibraryPage()];
   @override
   Widget build(BuildContext context) {
@@ -22,9 +23,11 @@ class _HomePageState extends ConsumerState<HomePage> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedIndex,
           onTap: (value) {
+
             setState(() {
               selectedIndex = value;
             });
+
           },
           items: [
             BottomNavigationBarItem(

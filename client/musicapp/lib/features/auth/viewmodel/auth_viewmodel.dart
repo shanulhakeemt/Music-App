@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:musicapp/core/providers/current_user_notifier.dart';
-import 'package:musicapp/features/auth/model/user_model.dart';
+import 'package:musicapp/core/models/user_model.dart';
 import 'package:musicapp/features/auth/repositories/auth_local_repository.dart';
 import 'package:musicapp/features/auth/repositories/auth_remote_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -66,6 +66,12 @@ class AuthViewModel extends _$AuthViewModel {
             AsyncValue.error(l.message, StackTrace.current),
         Right(value: final r) => _getCurrentUser(r),
       };
+      
+        print("user entered");
+        print(val.value?.toMap());
+        print("user entered");
+
+      
       return val.value;
     }
 
