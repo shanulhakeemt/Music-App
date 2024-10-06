@@ -15,6 +15,9 @@
 
 # uvicorn.run(app, host="192.168.225.63", port=8000)
    
+#!/usr/bin/env python3
+
+
 from fastapi import FastAPI
 from models.base import Base
 from pydantic_schemas.user_create import UserCreate
