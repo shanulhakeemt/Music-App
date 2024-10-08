@@ -8,11 +8,13 @@ from fastapi import APIRouter
 from database import get_db
 from sqlalchemy.orm import Session
 from pydantic_schemas.user_login import UserLogin
-import jwt
+import jwt as pyjwt
 from sqlalchemy.orm import joinedload
-
-
 from middleware.auth_middleware import auth_middleware
+import os
+
+# Get the secret key from environment variables
+SECRET_KEY = os.getenv("JWT_SECRET_KEY", "default_secret")
 
 
 
@@ -39,19 +41,21 @@ def signup_user(user:UserCreate,db:Session=Depends(get_db)):
 
 @router.post('/login')
 
-def login_user(user:UserLogin,db:Session=Depends(get_db)):
+def login_user(user: UserLogin, db: Session = Depends(get_db)):
+    user_db = db.query(User).filter(User.email == user.email).first()
+    if not user_db:
+        raise HTTPException(400, 'User with this email does not exist')
 
-      user_db=db.query(User).filter(User.email==user.email).first()
-      if not user_db:
-            raise HTTPException(400,'User with this email does not exist')
-      is_match=bcrypt.checkpw(user.password.encode(),user_db.password)
+    is_match = bcrypt.checkpw(user.password.encode(), user_db.password)
+    if not is_match:
+        raise HTTPException(400, 'Invalid password')
 
-      if not is_match:
-            raise HTTPException(400,'Invalid password')
-      
-      token=jwt.encode({"id":user_db.id},"password_key")
+    try:
+        token = pyjwt.encode({"id": user_db.id}, SECRET_KEY, algorithm='HS256')
+    except Exception as e:
+        raise HTTPException(500, f"JWT Encoding Error: {str(e)}")
 
-      return {"token":token,"user":user_db}
+    return {"token": token, "user": user_db}
 
 
 @router.get('/')

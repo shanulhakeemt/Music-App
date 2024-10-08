@@ -58,6 +58,14 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
+  flutter_launcher_icons: "^0.14.1"
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/inosuke.png"
+  adaptive_icon_background: "#FFFFFF" # Background color for adaptive icon
+  adaptive_icon_foreground: "assets/images/tanjiro.png"
   flutter_lints: ^3.0.0
   riverpod_generator: ^2.4.0
   build_runner: ^2.4.11

@@ -1,3 +1,3 @@
 class ServerConstants {
-  static const String serverUrl = 'http://192.168.225.63:8000';
+  static const String serverUrl = 'https://music-app-6.onrender.com';
 }

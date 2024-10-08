@@ -59,6 +59,9 @@ class AuthViewModel extends _$AuthViewModel {
   Future<UserModel?> getData() async {
     state = const AsyncValue.loading();
     final token = _authLocalRepository.getToken();
+    print("yeah token");
+    print(token);
+    print("yeah token");
     if (token != null) {
       final res = await _authRemoteRepository.getCurrentUserData(token);
       final val = switch (res) {
@@ -66,12 +69,11 @@ class AuthViewModel extends _$AuthViewModel {
             AsyncValue.error(l.message, StackTrace.current),
         Right(value: final r) => _getCurrentUser(r),
       };
-      
-        print("user entered");
-        print(val.value?.toMap());
-        print("user entered");
 
-      
+      print("user entered");
+      print(val.value?.toMap());
+      print("user entered");
+
       return val.value;
     }
 
@@ -85,11 +87,9 @@ class AuthViewModel extends _$AuthViewModel {
 
   @override
   AsyncValue<UserModel>? build() {
-    
     _authRemoteRepository = ref.watch(authRemoteRepositoryProvider);
     _authLocalRepository = ref.watch(authLocalRepositoryProvider);
     _currentUserNotifier = ref.watch(currentUserNotifierProvider.notifier);
     return null;
-
   }
 }

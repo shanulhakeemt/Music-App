@@ -15,6 +15,11 @@ Future<List<SongModel>> getAllSongs(GetAllSongsRef ref) async {
   final token = ref.watch(currentUserNotifierProvider.select(
     (user) => user!.token,
   ));
+
+  print("get all song token");
+  print(token);
+  print("get all song token");
+
   final res = await ref.watch(homeRepositoryProvider).getAllSongs(token);
 
   return switch (res) {

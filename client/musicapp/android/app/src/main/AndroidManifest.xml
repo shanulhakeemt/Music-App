@@ -9,7 +9,7 @@ xmlns:tools="http://schemas.android.com/tools"
   <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
 
     <application
-        android:label="musicapp"
+        android:label="Nota"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
